@@ -1,10 +1,26 @@
+#include <stdio.h>
 
 int main(int argc, char** argv) {
-
 // seccomp runs here
 
-// server starts 
+    if(fork() == 0)
+    { 
+        // server starts here
+        startServer();
+    }
+    else
+        // client starts here
+        startClient();
 
-// client starts
+    return 0;
+    }
+
+void startServer() {
+
+
+}
+
+void startClient() {
+
 
 }
