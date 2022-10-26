@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include "main.h"
 
 int main(int argc, char** argv) {
 // seccomp runs here
@@ -13,14 +13,4 @@ int main(int argc, char** argv) {
         startClient();
 
     return 0;
-    }
-
-void startServer() {
-
-
-}
-
-void startClient() {
-
-
 }
