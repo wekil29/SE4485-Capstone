@@ -1,6 +1,6 @@
 #include "main.h"
 
-void func(int sockfd)
+void ClientMessageService(int sockfd)
 {
     char buff[MAX];
     int n;
@@ -51,7 +51,7 @@ void startClient()
         printf("connected to the server..\n");
  
     // function for chat
-    func(sockfd);
+    ClientMessageService(sockfd);
  
     // close the socket
     close(sockfd);

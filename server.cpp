@@ -1,7 +1,7 @@
 #include "main.h"
 
 // Function designed for chat between client and server.
-void func(int connfd)
+void ServerMessageService(int connfd)
 {
     char buff[MAX];
     int n;
@@ -79,7 +79,7 @@ void startServer()
         printf("server accept the client...\n");
    
     // Function for chatting between client and server
-    func(connfd);
+    ServerMessageService(connfd);
    
     // After chatting close the socket
     close(sockfd);
