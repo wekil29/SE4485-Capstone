@@ -6,9 +6,14 @@
 #include <strings.h> // bzero()
 #include <sys/socket.h>
 #include <unistd.h> // read(), write(), close()
+
 #define MAX 80
 #define PORT 8080
 #define SA struct sockaddr
+
+void ClientConfig(sockaddr_in servaddr);
+void setPortNum(sockaddr_in servaddr);
+void setIPAddr(sockaddr_in servaddr);
 
 void ClientMessageService(int sockfd)
 {
@@ -30,7 +35,7 @@ void ClientMessageService(int sockfd)
         }
     }
 }
- 
+
 int main()
 {
     int sockfd, connfd;
@@ -45,11 +50,9 @@ int main()
     else
         printf("Socket successfully created..\n");
     bzero(&servaddr, sizeof(servaddr));
- 
-    // assign IP, PORT
-    servaddr.sin_family = AF_INET;
-    servaddr.sin_addr.s_addr = inet_addr("127.0.0.1");
-    servaddr.sin_port = htons(PORT);
+
+    // Configures the client's port number and IP address 
+    ClientConfig(servaddr);
  
     // connect the client socket to server socket
     if (connect(sockfd, (SA*)&servaddr, sizeof(servaddr))
@@ -65,4 +68,20 @@ int main()
  
     // close the socket
     close(sockfd);
+}
+
+void ClientConfig(sockaddr_in servaddr) {
+    setPortNum(servaddr);
+    setIPAddr(servaddr);
+}
+
+void setPortNum(sockaddr_in servaddr) {
+    // assign PORT from config file
+    servaddr.sin_family = AF_INET;
+    servaddr.sin_port = htons(PORT);
+}
+
+void setIPAddr(sockaddr_in servaddr) {
+    // assign IP to 127.0.0.1
+    servaddr.sin_addr.s_addr = inet_addr("127.0.0.1");
 }
