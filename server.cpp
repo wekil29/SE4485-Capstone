@@ -1,4 +1,13 @@
-#include "main.h"
+#include <stdio.h>
+#include <netdb.h>
+#include <netinet/in.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/socket.h>
+#include <sys/types.h>
+#define MAX 80
+#define PORT 8080
+#define SA struct sockaddr
 
 // Function designed for chat between client and server.
 void ServerMessageService(int connfd)
@@ -31,7 +40,7 @@ void ServerMessageService(int connfd)
 }
    
 // Driver function
-void startServer()
+int main()
 {
     int sockfd, connfd;
     unsigned int len;
