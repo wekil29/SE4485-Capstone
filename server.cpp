@@ -7,13 +7,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include "ServerConfig.h"
-#define MAX 80
-#define PORT 8080
 #define SA struct sockaddr
-
-int sockfd, connfd;
-unsigned int len;
-struct sockaddr_in servaddr, cli;
 
 int bindSocket(int port_num);
 
@@ -31,28 +25,26 @@ void ServerMessageService(int connfd)
 int main()
 {
     int connfd;
-    // assign IP, PORT
+    // Assign IP, PORT
     std::string file_name = ".config";
     ServerConfig serverConfig(file_name);
-    //serverConfig = ServerConfig(file_name);
     int port_num = serverConfig.getPortNum();
-
-    servaddr.sin_family = AF_INET;
-    servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
-    servaddr.sin_port = htons(port_num);
    
     connfd = bindSocket(port_num);
 
-    // Function for chatting between client and server
+    // Send a message to the client
     ServerMessageService(connfd);
    
-    // After chatting close the socket
-    close(sockfd);
+    // After sending a message close the socket
+    close(connfd);
     return 0;
 }
 int bindSocket(int port_num)
 {
     int sockfd, connfd, length;
+    socklen_t addrlen;
+    struct sockaddr_in servaddr, addr;
+
     // Socket creation and verification
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd == -1) {
@@ -63,8 +55,11 @@ int bindSocket(int port_num)
         printf("Socket successfully created\n");
     bzero(&servaddr, sizeof(servaddr));
 
+    servaddr.sin_family = AF_INET;
+    servaddr.sin_addr.s_addr = htonl(INADDR_ANY);  // Bind socket to any IP
+    servaddr.sin_port = htons(port_num);
+
     // Binding newly created socket to given IP and verification
-    struct sockaddr_in servaddr, cli;
     if ((bind(sockfd, (SA*)&servaddr, sizeof(servaddr))) != 0) {
         printf("Failed to bind socket\n");
         exit(0);
@@ -72,9 +67,16 @@ int bindSocket(int port_num)
     else
         printf("Socket successfully bound\n");
 
-    // Accept the data packet from client and verification
-    len = sizeof(cli);
-    connfd = accept(sockfd, (SA*)&cli, &len);
+    if ((listen(sockfd, 3)) != 0) {  // Second parameter is the backlog, max length of pending connection queue
+        printf("Failed to listen to socket");
+        exit(0);
+    }
+    else
+        printf("Listening to socket");
+
+    // Accept the data packet from the client and complete the connection
+    addrlen = sizeof(addr);
+    connfd = accept(sockfd, (SA*)&addr, &addrlen);
     if (connfd < 0) {
         printf("Failed to accept client\n");
         exit(0);

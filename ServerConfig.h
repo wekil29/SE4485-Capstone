@@ -6,8 +6,6 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <fstream>
-#define MAX 80
-#define PORT 8080
 #define SA struct sockaddr
 
 class ServerConfig

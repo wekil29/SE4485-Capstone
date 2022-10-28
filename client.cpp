@@ -7,19 +7,18 @@
 #include <sys/socket.h>
 #include <unistd.h> // read(), write(), close()
 
-#define MAX 80
-#define PORT 8080
+#define MAX 200
+#define PORT 8090
 #define IP_ADDR "127.0.0.1"
 #define SA struct sockaddr
 
-void ClientConfig(sockaddr_in servaddr);
-void setPortNum(sockaddr_in servaddr);
-void setIPAddr(sockaddr_in servaddr);
-
 void ClientMessageService(int sockfd)
 {
+    char packet[] = "M";
+    write(sockfd, packet, sizeof(packet));
+
     char buff[MAX];
-    
+    bzero(buff, sizeof (buff));
     read(sockfd, buff, sizeof(buff));
     printf("From Server : %s", buff);
 }
@@ -40,8 +39,10 @@ int connectSocket(int port_num)
     bzero(&servaddr, sizeof(servaddr));
 
     // Configures the client's port number and IP address
-    ClientConfig(servaddr);
- 
+    servaddr.sin_family = AF_INET;
+    servaddr.sin_port = htons(PORT);
+    servaddr.sin_addr.s_addr = inet_addr(IP_ADDR);
+
     // Connect the client socket to server socket
     if (connect(sockfd, (SA*)&servaddr, sizeof(servaddr)) != 0) {
         printf("Failed to connect to the server\n");
@@ -63,20 +64,4 @@ int main()
  
     // Close the socket
     close(sockfd);
-}
-
-void ClientConfig(sockaddr_in servaddr) {
-    setPortNum(servaddr);
-    setIPAddr(servaddr);
-}
-
-void setPortNum(sockaddr_in servaddr) {
-    // assign PORT from config file
-    servaddr.sin_family = AF_INET;
-    servaddr.sin_port = htons(PORT);
-}
-
-void setIPAddr(sockaddr_in servaddr) {
-    // assign IP to 127.0.0.1
-    servaddr.sin_addr.s_addr = inet_addr("127.0.0.1");
 }
