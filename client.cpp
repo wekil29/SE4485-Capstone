@@ -34,7 +34,7 @@ void ClientMessageService(int sockfd)
     }
 }
 
-int connectSocket(int port_num, char* ip_addr)
+int connectSocket(int port_num)
 {
     int sockfd, connfd;
     struct sockaddr_in servaddr, cli;
@@ -67,7 +67,7 @@ int main()
 {
     // Get the socket
     char IP_ADDRESS[] = "127.0.0.1";
-    int sockfd = connectSocket(PORT, IP_ADDRESS);
+    int sockfd = connectSocket(PORT);
     // Receive a message from the server
     ClientMessageService(sockfd);
  
