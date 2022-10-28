@@ -28,6 +28,9 @@ int bindSocket(int port_num)
 
     // Socket creation and verification
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
+    int optval = 1;
+    setsockopt(sockfd, SOL_SOCKET, SO_REUSEPORT, &optval, sizeof(optval));
+
     if (sockfd == -1) {
         printf("Failed to create socket\n");
         exit(0);
