@@ -58,14 +58,15 @@ int bindSocket(int port_num)
     else
         printf("Listening to socket\n\n");
 
-        for ( int loop = 0; loop < 4; ++loop) {
-            for ( int each = 0; each < 4; ++each) {
-                printf ( "\rloading%.*s   \b\b\b", each, "...");
-                fflush ( stdout); // force printing as no newline in output
-                sleep ( 1);
-            }
+    // Fancy loop animation
+    for(int loop = 0; loop < 2; ++loop) {
+        for(int each = 0; each < 4; ++each) {
+            printf("\r %.*s   \b\b\b", each, "...");
+            fflush(stdout); // force printing as no newline in output
+            sleep(1);
         }
-        printf ( "\n");
+    }
+    printf("\n");
 
     // Accept the data packet from the client and complete the connection
     addrlen = sizeof(addr);
