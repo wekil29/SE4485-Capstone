@@ -19,6 +19,7 @@ void ServerMessageService(int connfd)
 
     // Send a message to the client
     write(connfd, message, sizeof(message));
+    printf("Sent message to client:\n\t%s\n", message);
 }
 
 // Driver function
@@ -36,6 +37,7 @@ int main()
     ServerMessageService(connfd);
    
     // After sending a message close the socket
+    printf("Closing server socket\n");
     close(connfd);
     return 0;
 }
@@ -52,7 +54,7 @@ int bindSocket(int port_num)
         exit(0);
     }
     else
-        printf("Socket successfully created\n");
+        printf("Created socket\n");
     bzero(&servaddr, sizeof(servaddr));
 
     servaddr.sin_family = AF_INET;
@@ -65,14 +67,14 @@ int bindSocket(int port_num)
         exit(0);
     }
     else
-        printf("Socket successfully bound\n");
+        printf("Bound socket\n");
 
     if ((listen(sockfd, 3)) != 0) {  // Second parameter is the backlog, max length of pending connection queue
-        printf("Failed to listen to socket");
+        printf("Failed to listen to socket\n");
         exit(0);
     }
     else
-        printf("Listening to socket");
+        printf("Listening to socket\n");
 
     // Accept the data packet from the client and complete the connection
     addrlen = sizeof(addr);
@@ -82,7 +84,7 @@ int bindSocket(int port_num)
         exit(0);
     }
     else
-        printf("Client accepted by server\n");
+        printf("Accepted client\n");
 
     return connfd;
 }

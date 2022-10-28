@@ -20,7 +20,7 @@ void ClientMessageService(int sockfd)
     char buff[MAX];
     bzero(buff, sizeof (buff));
     read(sockfd, buff, sizeof(buff));
-    printf("From Server : %s", buff);
+    printf("Received from the server:\n\t%s\n", buff);
 }
 
 int connectSocket(int port_num)
@@ -63,5 +63,6 @@ int main()
     ClientMessageService(sockfd);
  
     // Close the socket
+    printf("Closing client socket\n");
     close(sockfd);
 }
