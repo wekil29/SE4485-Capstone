@@ -10,6 +10,10 @@
 #define PORT 8080
 #define SA struct sockaddr
 
+int sockfd, connfd;
+unsigned int len;
+struct sockaddr_in servaddr, cli;
+
 // Function designed for chat between client and server.
 void ServerMessageService(int connfd)
 {
@@ -39,13 +43,11 @@ void ServerMessageService(int connfd)
         }
     }
 }
-   
+ void bindSocket();  
 // Driver function
 int main()
 {
-    int sockfd, connfd;
-    unsigned int len;
-    struct sockaddr_in servaddr, cli;
+    
    
     // socket create and verification
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -62,21 +64,7 @@ int main()
     servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
     servaddr.sin_port = htons(PORT);
    
-    // Binding newly created socket to given IP and verification
-    if ((bind(sockfd, (SA*)&servaddr, sizeof(servaddr))) != 0) {
-        printf("socket bind failed...\n");
-        exit(0);
-    }
-    else
-        printf("Socket successfully binded..\n");
-   
-    // Now server is ready to listen and verification
-    if ((listen(sockfd, 5)) != 0) {
-        printf("Listen failed...\n");
-        exit(0);
-    }
-    else
-        printf("Server listening..\n");
+    bindSocket();
     len = sizeof(cli);
    
     // Accept the data packet from client and verification
@@ -93,4 +81,22 @@ int main()
    
     // After chatting close the socket
     close(sockfd);
+}
+void bindSocket(){
+    // Binding newly created socket to given IP and verification
+    struct sockaddr_in servaddr, cli;
+    if ((bind(sockfd, (SA*)&servaddr, sizeof(servaddr))) != 0) {
+        printf("socket bind failed...\n");
+        exit(0);
+    }
+    else
+        printf("Socket successfully binded..\n");
+   
+    // Now server is ready to listen and verification
+    if ((listen(sockfd, 5)) != 0) {
+        printf("Listen failed...\n");
+        exit(0);
+    }
+    else
+        printf("Server listening..\n");
 }
