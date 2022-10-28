@@ -14,11 +14,8 @@
 
 void ClientMessageService(int sockfd)
 {
-    char packet[] = "M";
-    write(sockfd, packet, sizeof(packet));
-
+    // Read message from sockfd
     char buff[MAX];
-    bzero(buff, sizeof (buff));
     read(sockfd, buff, sizeof(buff));
     printf("Received from the server:\n\t%s\n", buff);
 }
