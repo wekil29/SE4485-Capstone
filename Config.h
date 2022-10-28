@@ -1,3 +1,6 @@
+#ifndef HEADER_FILE
+#define HEADER_FILE
+
 #include <stdio.h>
 #include <netdb.h>
 #include <netinet/in.h>
@@ -30,3 +33,5 @@ class Config
       void setPortNum(int num) { port_num = num; }
       int getPortNum() { return port_num; }
 };
+
+#endif
