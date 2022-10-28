@@ -8,6 +8,7 @@
 #include <unistd.h> // read(), write(), close()
 #define MAX 80
 #define PORT 8080
+#define IP_ADDR "127.0.0.1"
 #define SA struct sockaddr
 
 void ClientMessageService(int sockfd)
@@ -30,39 +31,46 @@ void ClientMessageService(int sockfd)
         }
     }
 }
- 
-int main()
+
+int connectSocket(int port_num, char* ip_addr)
 {
     int sockfd, connfd;
     struct sockaddr_in servaddr, cli;
- 
-    // socket create and verification
+
+    // Socket creation
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd == -1) {
-        printf("socket creation failed...\n");
+        printf("Failed to create socket\n");
         exit(0);
     }
     else
-        printf("Socket successfully created..\n");
+        printf("Created socket\n");
     bzero(&servaddr, sizeof(servaddr));
- 
-    // assign IP, PORT
+
+    // Assign IP, PORT
     servaddr.sin_family = AF_INET;
-    servaddr.sin_addr.s_addr = inet_addr("127.0.0.1");
-    servaddr.sin_port = htons(PORT);
- 
-    // connect the client socket to server socket
-    if (connect(sockfd, (SA*)&servaddr, sizeof(servaddr))
-        != 0) {
-        printf("connection with the server failed...\n");
+    servaddr.sin_addr.s_addr = inet_addr(ip_addr);
+    servaddr.sin_port = htons(port_num);
+
+    // Connect the client socket to server socket
+    if (connect(sockfd, (SA*)&servaddr, sizeof(servaddr)) != 0) {
+        printf("Failed to connect to the server\n");
         exit(0);
     }
     else
-        printf("connected to the server..\n");
- 
-    // function for chat
+        printf("Connected to the server\n");
+
+    return sockfd;
+}
+
+int main()
+{
+    // Get the socket
+    char IP_ADDRESS[] = "127.0.0.1";
+    int sockfd = connectSocket(PORT, IP_ADDRESS);
+    // Receive a message from the server
     ClientMessageService(sockfd);
  
-    // close the socket
+    // Close the socket
     close(sockfd);
 }
