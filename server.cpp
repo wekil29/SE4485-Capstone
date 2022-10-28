@@ -6,10 +6,8 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <unistd.h>
-#include "ServerConfig.h"
+#include "Config.h"
 #define SA struct sockaddr
-
-int bindSocket(int port_num);
 
 // Function designed for chat between client and server
 void ServerMessageService(int connfd)
@@ -22,25 +20,6 @@ void ServerMessageService(int connfd)
     printf("Sent message to client:\n\t%s\n", message);
 }
 
-// Driver function
-int main()
-{
-    int connfd;
-    // Assign IP, PORT
-    std::string file_name = ".config";
-    ServerConfig serverConfig(file_name);
-    int port_num = serverConfig.getPortNum();
-   
-    connfd = bindSocket(port_num);
-
-    // Send a message to the client
-    ServerMessageService(connfd);
-   
-    // After sending a message close the socket
-    printf("Closing server socket\n");
-    close(connfd);
-    return 0;
-}
 int bindSocket(int port_num)
 {
     int sockfd, connfd, length;
@@ -87,4 +66,24 @@ int bindSocket(int port_num)
         printf("Accepted client\n");
 
     return connfd;
+}
+
+// Driver function
+int main()
+{
+    int connfd;
+    // Assign IP, PORT
+    std::string file_name = ".config";
+    Config config(file_name);
+    int port_num = config.getPortNum();
+
+    connfd = bindSocket(port_num);
+
+    // Send a message to the client
+    ServerMessageService(connfd);
+
+    // After sending a message close the socket
+    printf("Closing server socket\n");
+    close(connfd);
+    return 0;
 }

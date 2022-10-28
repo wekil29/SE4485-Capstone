@@ -8,7 +8,7 @@
 #include <fstream>
 #define SA struct sockaddr
 
-class ServerConfig
+class Config
 {
    private:
       int port_num;
@@ -17,7 +17,7 @@ class ServerConfig
       std::fstream readFile(std::string file_name) { return std::fstream(file_name, std::fstream::in); }
    
    public:
-      ServerConfig(std::string file_name)
+      Config(std::string file_name)
       {
           std::fstream fs;
           std::string port;
