@@ -10,7 +10,7 @@
 #define SA struct sockaddr
 
 // Function designed for chat between client and server
-void ServerMessageService(int connfd)
+void sendMessage(int connfd)
 {
     // char buff[MAX];
     char message[] = "This is a message from the server";
@@ -80,7 +80,7 @@ int main()
     connfd = bindSocket(port_num);
 
     // Send a message to the client
-    ServerMessageService(connfd);
+    sendMessage(connfd);
 
     // After sending a message close the socket
     printf("Closing server socket\n");

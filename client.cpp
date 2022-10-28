@@ -12,7 +12,7 @@
 #define IP_ADDR "127.0.0.1"
 #define SA struct sockaddr
 
-void ClientMessageService(int sockfd)
+void getMessage(int sockfd)
 {
     // Read message from sockfd
     char buff[MAX];
@@ -22,7 +22,7 @@ void ClientMessageService(int sockfd)
 
 int connectSocket(int port_num)
 {
-    int sockfd, connfd;
+    int sockfd;
     struct sockaddr_in servaddr, cli;
 
     // Socket creation
@@ -63,7 +63,7 @@ int main()
 
     int sockfd = connectSocket(port_num);
     // Receive a message from the server
-    ClientMessageService(sockfd);
+    getMessage(sockfd);
  
     // Close the socket
     printf("Closing client socket\n");
