@@ -19,19 +19,9 @@ void setIPAddr(sockaddr_in servaddr);
 void ClientMessageService(int sockfd)
 {
     char buff[MAX];
-    int n;
-    for (;;) {
-        printf("Enter the string : ");
-        n = 0;
-        while ((buff[n++] = getchar()) != '\n')
-            ;
-        read(sockfd, buff, sizeof(buff));
-        printf("From Server : %s", buff);
-        if ((strncmp(buff, "exit", 4)) == 0) {
-            printf("Client Exit...\n");
-            break;
-        }
-    }
+    
+    read(sockfd, buff, sizeof(buff));
+    printf("From Server : %s", buff);
 }
 
 int connectSocket(int port_num)
