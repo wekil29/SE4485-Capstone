@@ -32,11 +32,11 @@ int bindSocket(int port_num)
     setsockopt(sockfd, SOL_SOCKET, SO_REUSEPORT, &optval, sizeof(optval));
 
     if (sockfd == -1) {
-        printf("Failed to create socket\n");
+        printf("Server failed to create socket\n");
         exit(0);
     }
     else
-        printf("Created socket\n");
+        printf("Server created socket\n");
     bzero(&servaddr, sizeof(servaddr));
 
     servaddr.sin_family = AF_INET;
@@ -45,29 +45,29 @@ int bindSocket(int port_num)
 
     // Binding newly created socket to given IP and verification
     if ((bind(sockfd, (SA*)&servaddr, sizeof(servaddr))) != 0) {
-        printf("Failed to bind socket\n");
+        printf("Server failed to bind socket\n");
         exit(0);
     }
     else
-        printf("Bound socket\n");
+        printf("Server bound socket\n");
 
     if ((listen(sockfd, 3)) != 0) {  // Second parameter is the backlog, max length of pending connection queue
-        printf("Failed to listen to socket\n");
+        printf("Server failed to listen to socket\n");
         exit(0);
     }
     else
-        printf("Listening to socket\n\n");
+        printf("Server listening to socket\n\n");
 
 
     // Accept the data packet from the client and complete the connection
     addrlen = sizeof(addr);
     connfd = accept(sockfd, (SA*)&addr, &addrlen);
     if (connfd < 0) {
-        printf("Failed to accept client\n");
+        printf("Server failed to accept client\n");
         exit(0);
     }
     else
-        printf("Accepted client\n");
+        printf("Server accepted client\n");
 
     return connfd;
 }
@@ -86,8 +86,9 @@ int main()
     // Send a message to the client
     sendMessage(connfd);
 
-    // After sending a message close the socket
+    // After sending a message terminate the socket and open new socket
     printf("Closing server socket\n");
     close(connfd);
+
     return 0;
 }
