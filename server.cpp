@@ -81,14 +81,18 @@ int main()
     Config config(file_name);
     int port_num = config.getPortNum();
 
-    connfd = bindSocket(port_num);
+    // Opens server listener after closing socket
+    while(true) {
+        // Binding to server socket
+        connfd = bindSocket(port_num);
 
-    // Send a message to the client
-    sendMessage(connfd);
+        // Send a message to the client
+        sendMessage(connfd);
 
-    // After sending a message terminate the socket and open new socket
-    printf("Closing server socket\n");
-    close(connfd);
+        // After sending a message terminate the socket and open new socket
+        printf("Closing server socket\n");
+        close(connfd);
+    }
 
     return 0;
 }
