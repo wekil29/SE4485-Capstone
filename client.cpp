@@ -28,11 +28,11 @@ int connectSocket(int port_num)
     // Socket creation
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd == -1) {
-        printf("Failed to create socket\n");
+        printf("Client failed to create socket\n");
         exit(0);
     }
     else
-        printf("Created socket\n");
+        printf("Client created socket\n");
     bzero(&servaddr, sizeof(servaddr));
 
     // Configures the client's port number and IP address
@@ -42,11 +42,11 @@ int connectSocket(int port_num)
 
     // Connect the client socket to server socket
     if (connect(sockfd, (SA*)&servaddr, sizeof(servaddr)) != 0) {
-        printf("Failed to connect to the server\n");
+        printf("Client failed to connect to the server\n");
         exit(0);
     }
     else
-        printf("Connected to the server\n");
+        printf("Client connected to the server\n");
 
     return sockfd;
 }
