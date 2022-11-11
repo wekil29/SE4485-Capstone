@@ -2,12 +2,14 @@
 #define HEADER_FILE
 
 #include <stdio.h>
-#include <netdb.h>
-#include <netinet/in.h>
 #include <stdlib.h>
-#include <string>
+#include <unistd.h> // read(), write(), close()
 #include <sys/socket.h>
 #include <sys/types.h>
+#include <netdb.h>
+#include <netinet/in.h>
+#include <string>
+#include <string.h>
 #include <fstream>
 #define SA struct sockaddr
 

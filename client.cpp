@@ -1,16 +1,9 @@
 #include <arpa/inet.h> // inet_addr()
-#include <netdb.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include <strings.h> // bzero()
-#include <sys/socket.h>
-#include <unistd.h> // read(), write(), close()
 #include "Config.h"
 
 #define MAX 200
 #define IP_ADDR "127.0.0.1"
-#define SA struct sockaddr
 
 void getMessage(int sockfd)
 {
