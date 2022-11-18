@@ -1,4 +1,5 @@
 #include "Config.h"
+#include "seccomp.h"
 
 // Function designed for chat between client and server
 void sendMessage(int connfd)
@@ -72,6 +73,15 @@ int main()
     Config config(file_name);
     int port_num = config.getPortNum();
 
+    //seccomp
+    signal(SIGSYS, handle_sigsys);
+    parse_args(argc, argv, &before_allow, &after_allow);
+    if (install_syscall_filter(before_allow)) 
+    {
+        printf("filter install failure\n");
+        exit(4);
+    } // TODO test whether seccomp section needs to be put here or inside of the while(true) loop
+    
     // Opens server listener after closing socket
     while(true) {
         // Binding to server socket
