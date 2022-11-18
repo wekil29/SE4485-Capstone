@@ -12,7 +12,7 @@
 #include <strings.h> // bzero()
 #include "Config.h"
 #include "seccomp.h"
-#include "seccomp-bpf.h"
+//#include "seccomp-bpf.h"
 
 #define MAX 200
 #define IP_ADDR "127.0.0.1"
