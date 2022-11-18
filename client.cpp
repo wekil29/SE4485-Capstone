@@ -73,6 +73,7 @@ int main()
     int sockfd;                         // File descriptor of socket
 
     // Get port
+    std::string file_name = ".config";
     Config config(file_name);
     port_num = config.getPortNum(); // Must run before seccomp filter is installed so that it does not get blocked
 
