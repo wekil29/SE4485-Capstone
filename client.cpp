@@ -58,63 +58,33 @@ int connectSocket(int port_num)
 
 int main(int argc, char** argv)
 {
-    // Get the socket
-    char IP_ADDRESS[] = "127.0.0.1";
+    // Setting up variables
+    int before_allow = 1;   // seccomp variable 
+    int after_allow = 1;    // seccomp variable
+    char IP_ADDRESS[] = "127.0.0.1";    // Get the socket
+    std::string file_name = ".config";  // Name of config file with port number
+    int port_num;                       // Port number
+    int sockfd;                         // File descriptor of socket
 
     // Get port
-    std::string file_name = ".config";
     Config config(file_name);
-    int port_num = config.getPortNum();
+    port_num = config.getPortNum();
 
-    int sockfd = connectSocket(port_num);
+    sockfd = connectSocket(port_num);
+    
+    //seccomp
+    signal(SIGSYS, handle_sigsys);
+    parse_args(argc, argv, &before_allow, &after_allow);
+    if (install_syscall_filter(before_allow)) 
+    {
+        printf("filter install failure\n");
+        exit(4);
+    }
+    
     // Receive a message from the server
     getMessage(sockfd);
  
     // Close the socket
     printf("Closing client socket\n");
     close(sockfd);
-
-    //seccomp
-    int before_allow = 1;
-    int after_allow = 1;
-
-    signal(SIGSYS, handle_sigsys);
-    parse_args(argc, argv, &before_allow, &after_allow);
-
-    if (install_syscall_filter( before_allow )) 
-    {
-        printf("filter install failure: original\n");
-        exit(4);
-    }
-
-    pid_t forkStatus;
-    forkStatus = fork();
-
-    if (forkStatus == 0) 
-    {
-        signal(SIGSYS, handle_sigsys);
-        printf("-->  Hello from the child. Installing filter now.\n");
-        if (install_syscall_filter( after_allow )) {
-            printf("filter install failure: child\n");
-            exit(5);
-        }
-        printf("-->  Child sleeping.\n");
-        sleep(2);
-        printf("-->  Can child get pid?.\n");
-        pid_t cpid = getpid();
-        printf("-->  childpid = %d.\n", cpid);
-        printf("-->  Child terminating.\n");
-    }
-    else if (forkStatus != -1) 
-    {
-        printf("[Parent process.]\n");
-        wait(NULL);
-        pid_t ppid = getpid();
-        printf("[as the parent I can get my PID. See pid=%d.]\n", ppid);
-        printf("[Parent terminating]\n");
-
-    } else {
-        perror("Error calling fork()");
-    }
-
 }
