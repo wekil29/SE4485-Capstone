@@ -1,0 +1,12 @@
+# /etc/systemd/system/client.timer
+[Unit]
+Description=Timer for looping client.service
+
+[Timer]
+OnBootSec=15sec
+OnUnitInactiveSec=10sec
+AccuracySec=1us
+Unit=client.service
+
+[Install]
+WantedBy=multi-user.target

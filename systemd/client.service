@@ -1,0 +1,13 @@
+# /etc/systemd/system/client.service
+[Unit]
+Description=Run client at startup
+
+[Service]
+Type=simple
+WorkingDirectory=/home/centos/SE4485-Capstone/
+ExecStart=/home/centos/SE4485-Capstone/client
+RemainAfterExit=false
+
+
+[Install]
+WantedBy=multi-user.target
