@@ -70,8 +70,6 @@ int main(int argc, char** argv)
     Config config(file_name);
     port_num = config.getPortNum();
 
-    sockfd = connectSocket(port_num);
-    
     //seccomp
     signal(SIGSYS, handle_sigsys);
     parse_args(argc, argv, &before_allow, &after_allow);
@@ -81,6 +79,7 @@ int main(int argc, char** argv)
         exit(4);
     }
     
+    sockfd = connectSocket(port_num);
     // Receive a message from the server
     getMessage(sockfd);
  
