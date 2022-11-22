@@ -74,13 +74,20 @@ int main()
     int port_num = config.getPortNum();
 
     //seccomp
-    signal(SIGSYS, handle_sigsys);
-    parse_args(argc, argv, &before_allow, &after_allow);
-    if (install_syscall_filter(before_allow)) 
-    {
-        printf("filter install failure\n");
-        exit(4);
-    } // TODO test whether seccomp section needs to be put here or inside of the while(true) loop
+      printf("hey there!\n");
+
+      install_filter(__NR_write, AUDIT_ARCH_X86_64, EPERM);
+
+      printf("something's gonna happen!!\n");
+      printf("it will not definitely print this here\n");
+    
+//     signal(SIGSYS, handle_sigsys);
+//     parse_args(argc, argv, &before_allow, &after_allow);
+//     if (install_syscall_filter(before_allow)) 
+//     {
+//         printf("filter install failure\n");
+//         exit(4);
+//     } // TODO test whether seccomp section needs to be put here or inside of the while(true) loop
     
     // Opens server listener after closing socket
     while(true) {
