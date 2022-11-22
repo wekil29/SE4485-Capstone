@@ -67,6 +67,8 @@ int bindSocket(int port_num)
 // Driver function
 int main(int argc, char** argv)
 {
+    int before_allow = 1;   // seccomp variable 
+    int after_allow = 1;    // seccomp variable
     int connfd;
     // Assign IP, PORT
     std::string file_name = ".config";
