@@ -64,11 +64,15 @@ int bindSocket(int port_num)
     return connfd;
 }
 
-// Driver function
-int main(int argc, char** argv)
+void set_seccomp_filters()
 {
-    int before_allow = 1;   // seccomp variable 
-    int after_allow = 1;    // seccomp variable
+   install_filter(__NR_open, AUDIT_ARCH_X86_64, EPERM);
+   // Add more syscall filters below as needed
+}
+
+// Driver function
+int main()
+{
     int connfd;
     // Assign IP, PORT
     std::string file_name = ".config";
@@ -76,19 +80,12 @@ int main(int argc, char** argv)
     int port_num = config.getPortNum();
 
     //seccomp
-    signal(SIGSYS, handle_sigsys);
-    parse_args(argc, argv, &before_allow, &after_allow);
-    if (install_syscall_filter(before_allow)) 
-    {
-        printf("filter install failure\n");
-        exit(4);
-    } // TODO test whether seccomp section needs to be put here or inside of the while(true) loop
-    
+    set_seccomp_filters();
+
     // Opens server listener after closing socket
     while(true) {
         // Binding to server socket
         connfd = bindSocket(port_num);
-
         // Send a message to the client
         sendMessage(connfd);
 
