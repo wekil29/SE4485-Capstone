@@ -10,6 +10,9 @@ The purpose of this project is to develop a simple C/C++ client-server applicati
 ### Getting Started
 ### Prerequisites
 ### Installation
+To properly compile the client and server, use the following commands:
+- g++ -std=c++11 server.cpp -o server
+- g++ -std=c++11 client.cpp -o client
 ### Usage
 ### Deliverables
 - A writeup containing findings on use of seccomp.
