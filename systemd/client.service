@@ -1,13 +1,11 @@
 # /etc/systemd/system/client.service
 [Unit]
 Description=Run client at startup
+Wants=client.timer
 
 [Service]
-Type=simple
-WorkingDirectory=/home/centos/SE4485-Capstone/
+Type=oneshot
 ExecStart=/home/centos/SE4485-Capstone/client
-RemainAfterExit=false
-
 
 [Install]
 WantedBy=multi-user.target
