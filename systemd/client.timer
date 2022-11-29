@@ -5,7 +5,7 @@ Requires=client.service
 
 [Timer]
 Unit=client.service
-OnCalendar=*-*-* *:*:00
+OnCalendar=*-*-* *:30:00
 AccuracySec=1us
 
 [Install]
