@@ -1,18 +1,6 @@
-/*
-    File updated on 11/18/22 by Justin Jones. 
-
-    summary:    seccomp functionality added for client. installation and demo of seccomp filter
-
-    changes:    include statements for seccomp.h and seccomp-bpf.h added. arguments for main added. 
-                The seccomp portion (line 77+) was added.
-*/
-
-
 #include <arpa/inet.h> // inet_addr()
 #include <strings.h> // bzero()
 #include "Config.h"
-#include "seccomp.h"
-//#include "seccomp-bpf.h"
 
 #define MAX 200
 #define IP_ADDR "127.0.0.1"
@@ -56,30 +44,17 @@ int connectSocket(int port_num)
     return sockfd;
 }
 
-int main(int argc, char** argv)
+int main()
 {
-    // Setting up variables
-    int before_allow = 1;   // seccomp variable 
-    int after_allow = 1;    // seccomp variable
-    char IP_ADDRESS[] = "127.0.0.1";    // Get the socket
-    std::string file_name = ".config";  // Name of config file with port number
-    int port_num;                       // Port number
-    int sockfd;                         // File descriptor of socket
+    // Get the socket
+    char IP_ADDRESS[] = "127.0.0.1";
 
     // Get port
+    std::string file_name = ".config";
     Config config(file_name);
-    port_num = config.getPortNum();
+    int port_num = config.getPortNum();
 
-    //seccomp
-    signal(SIGSYS, handle_sigsys);
-    parse_args(argc, argv, &before_allow, &after_allow);
-    if (install_syscall_filter(before_allow)) 
-    {
-        printf("filter install failure\n");
-        exit(4);
-    }
-    
-    sockfd = connectSocket(port_num);
+    int sockfd = connectSocket(port_num);
     // Receive a message from the server
     getMessage(sockfd);
  
