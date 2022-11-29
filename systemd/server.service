@@ -1,0 +1,11 @@
+# /etc/systemd/system/server.service
+[Unit]
+Description=Run server at startup
+
+[Service]
+Type=simple
+WorkingDirectory=/home/centos/SE4485-Capstone/
+ExecStart=/home/centos/SE4485-Capstone/server
+
+[Install]
+WantedBy=default.target

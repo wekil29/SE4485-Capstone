@@ -1,0 +1,12 @@
+# /etc/systemd/system/client.timer
+[Unit]
+Description=Timer for looping client.service
+Requires=client.service
+
+[Timer]
+Unit=client.service
+OnCalendar=*-*-* *:*:00
+AccuracySec=1us
+
+[Install]
+WantedBy=timers.target
