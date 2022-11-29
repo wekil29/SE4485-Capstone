@@ -5,6 +5,7 @@ Wants=client.timer
 
 [Service]
 Type=oneshot
+WorkingDirectory=/home/centos/SE4485-Capstone/
 ExecStart=/home/centos/SE4485-Capstone/client
 
 [Install]
