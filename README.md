@@ -15,6 +15,6 @@ To properly compile the client and server, use the following commands:
 - g++ -std=c++11 client.cpp -o client
 ### Usage
 ### Deliverables
-- A writeup containing findings on use of seccomp.
+- A writeup containing findings on use of seccomp
 - A demonstration of the client and server program utilizing seccomp
 - All code and other documents written for the project

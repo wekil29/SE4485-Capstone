@@ -1,9 +1,7 @@
 #include "Config.h"
 #include "seccomp.h"
 
-// Function designed for chat between client and server
 void sendMessage(int connfd) {
-    // char buff[MAX];
     char message[] = "This is a message from the server";
 
     // Send a message to the client
@@ -82,7 +80,7 @@ int main() {
     Config config(file_name);
     int port_num = config.getPortNum();
 
-    // seccomp
+    // Seccomp
     set_seccomp_filters();
 
     // Binding to server socket
