@@ -95,7 +95,7 @@ int main() {
         sendMessage(connfd);
 
         // After sending a message terminate the socket and open new socket
-        printf("Closing server socket\n");
+        printf("Closing connection socket\n");
         close(connfd);
     }
 
